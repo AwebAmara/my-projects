@@ -1,0 +1,31 @@
+const express = require ('express');
+const mongoose = require('mongoose');
+const user_router= require('./routers/user_router')
+const article_router = require('./routers/article_router')
+const categorie_router = require('./routers/categorie_router')
+const commande_router = require('./routers/command_router')
+const  marque_router=require('./routers/marque_router')
+const cors = require('cors')
+const upload = multer({dest: __dirname + '/uploads/images'});
+
+const app = express();
+
+app.use(cors())
+
+mongoose.connect('mongodb://localhost/comercialbase',{ useNewUrlParser:true})
+ .then(()=>console.log("database connected"))
+.catch(()=>console.log("connection to db failed"))
+
+app.use(express.json());
+
+app.set("secretkey","aweb")
+
+app.use('/api/user',user_router);
+app.use('/api/article',article_router);
+app.use('/api/categorie',categorie_router);
+app.use('/api/commande',commande_router);
+app.use('/api/marque',marque_router);
+
+
+
+app.listen(1000,() => console.log("server connected"));
